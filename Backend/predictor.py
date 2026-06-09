@@ -17,8 +17,8 @@ from nltk.corpus import stopwords
 import nltk
 # Set the absolute path for NLTK data so Vercel can find it locally
 BASE_DIR = Path(__file__).resolve().parent
-nltk_data_path = os.path.join(BASE_DIR, "nltk_data")
-nltk.data.path.append(nltk_data_path)
+nltk_data_path = str(BASE_DIR / "nltk_data")
+nltk.data.path = [nltk_data_path]
 
 # LOAD SAVED MODEL & VECTORIZER
 
