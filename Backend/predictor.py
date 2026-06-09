@@ -1,5 +1,7 @@
+import os
 import sys
 import joblib
+from pathlib import Path
 
 
 try:
@@ -13,17 +15,18 @@ from nltk.tokenize import word_tokenize
 from nltk.stem import PorterStemmer
 from nltk.corpus import stopwords
 import nltk
-nltk.download('punkt_tab')
-nltk.download('punkt')
-nltk.download('stopwords')
+# Set the absolute path for NLTK data so Vercel can find it locally
+BASE_DIR = Path(__file__).resolve().parent
+nltk_data_path = os.path.join(BASE_DIR, "nltk_data")
+nltk.data.path.append(nltk_data_path)
 
 # LOAD SAVED MODEL & VECTORIZER
 
-loaded_model_path = "trained_models/multinomial_nb_model.pkl"
-loaded_vectorizer_path = "trained_models/tfidf_vectorizer.pkl"
+loaded_model_path = BASE_DIR / "trained_models" / "multinomial_nb_model.pkl"
+loaded_vectorizer_path = BASE_DIR / "trained_models" / "tfidf_vectorizer.pkl"
 print("Loading pipeline components...")
-loaded_model = joblib.load(loaded_model_path)
-loaded_vectorizer = joblib.load(loaded_vectorizer_path)
+loaded_model = joblib.load(str(loaded_model_path))
+loaded_vectorizer = joblib.load(str(loaded_vectorizer_path))
 print("Model and Vectorizer loaded successfully!\n")
 
 def predict_sentiment (text):
